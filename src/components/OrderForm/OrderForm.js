@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { postOrders } from '../../apiCalls';
 class OrderForm extends Component {
   constructor(props) {
     super();
@@ -10,21 +10,40 @@ class OrderForm extends Component {
     };
   }
 
-
-  handleSubmit = e => {
+  handleNameChange = e => {
     e.preventDefault();
-    this.clearInputs();
+    this.setState({[e.target.name]: e.target.value})
   }
 
-  clearInputs = () => {
-    this.setState({name: '', ingredients: []});
+  handleIngredientChange = (e, ingredient) => {
+    e.preventDefault();
+    this.setState({...this.state, ingredients: [...this.state.ingredients, ingredient]})
+  }
+  
+  handleSubmit = () => {
+    this.clearInputs();
+  }
+  
+  clearInputs = (e) => {
+    // e.preventDefault()
+    if(this.state.name.length === 0 && this.state.ingredients.length < 1) {
+      e.preventDefault();
+      console.log('please insert a name and ingredient')
+    } else {
+      this.setState({name: '', ingredients: []});
+      postOrders(this.state.name, this.state.ingredients)
+      console.log('submited!')
+    }
+
+
   }
 
   render() {
+    console.log(this.state)
     const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
     const ingredientButtons = possibleIngredients.map(ingredient => {
       return (
-        <button key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
+        <button key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e, ingredient)}>
           {ingredient}
         </button>
       )
@@ -43,8 +62,7 @@ class OrderForm extends Component {
         { ingredientButtons }
 
         <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
-
-        <button onClick={e => this.handleSubmit(e)}>
+        <button onClick={e => this.clearInputs(e)}>
           Submit Order
         </button>
       </form>
