@@ -28,17 +28,18 @@ class OrderForm extends Component {
     if(this.state.name.length === 0 && this.state.ingredients.length < 1) {
       e.preventDefault();
       console.log('please insert a name and ingredient')
-    } else {
-      this.setState({name: '', ingredients: []});
+    } else if (this.state.name.length > 1 && this.state.ingredients.length > 1) {
+      this.setState({ name: '', ingredients: [] });
       postOrders(this.state.name, this.state.ingredients)
       console.log('submited!')
+    } else {
+      console.log('nothings here')
     }
 
 
   }
 
   render() {
-    console.log(this.state)
     const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
     const ingredientButtons = possibleIngredients.map(ingredient => {
       return (
