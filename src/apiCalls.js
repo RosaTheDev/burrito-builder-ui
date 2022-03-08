@@ -18,3 +18,13 @@ export const postOrders = (name, ingredients) => {
   .then(data => console.log('post data', data))
   .catch(err => console.log(err))
 }
+
+export const deleteOrder = (id) => {
+  return fetch(`http://localhost:3001/api/v1/orders/${id}`, {
+    method: 'DELETE', 
+    body: null,
+    headers: {
+    'Content-Type': 'application/json'
+  }
+  })
+}

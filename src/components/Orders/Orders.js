@@ -1,7 +1,16 @@
 import React from 'react';
+import { deleteOrder } from '../../apiCalls';
 import './Orders.css';
-
 const Orders = props => {
+
+  const deleteThisOrder = (id) => {
+       deleteOrder(id)
+       refreshPage()
+  }
+
+  const refreshPage = () =>  {
+    window.location.reload(false)
+  }
   const orderEls = props.orders.orders.map((order, index) => {
     return (
       <div className="order" key={index}>
@@ -11,6 +20,7 @@ const Orders = props => {
             return <li key={ingredient}>{ingredient}</li>
           })}
         </ul>
+        <button onClick={e => deleteThisOrder(order.id)}>Delete</button>
       </div>
     )
   });
