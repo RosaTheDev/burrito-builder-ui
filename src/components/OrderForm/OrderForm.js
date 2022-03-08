@@ -25,7 +25,6 @@ class OrderForm extends Component {
   }
   
   clearInputs = (e) => {
-    // e.preventDefault()
     if(this.state.name.length === 0 && this.state.ingredients.length < 1) {
       e.preventDefault();
       console.log('please insert a name and ingredient')
